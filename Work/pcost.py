@@ -2,7 +2,6 @@
 #
 # Exercise 1.27
 
-import csv, sys
 from report import read_portfolio
 
 def portfolio_cost(filename):
@@ -12,10 +11,11 @@ def portfolio_cost(filename):
     portfolio = read_portfolio(filename)
     return round(sum([s['shares'] * s['price'] for s in portfolio]), 2)
 
-if len(sys.argv) == 2:
-    filename = sys.argv[1]
-else:
-    filename = 'Data\portfoliodate.csv'
+def main(args):
+    if len(args) != 2:
+        raise SystemExit(f'Usage: {args[0]} portfolio')
+    print('Total costs:', portfolio_cost(args[1]))
 
-cost = portfolio_cost(filename)
-print('Total costs:', cost)
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
