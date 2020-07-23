@@ -1,31 +1,24 @@
 # report.py
-#
-# Exercise 2.4
 
 import stock
 import tableformat
 from fileparse import parse_csv
 from portfolio import Portfolio
 
-def read_portfolio(filename:str):
+def read_portfolio(filename:str, **opts:dict):
     '''
     Read a stock portfolio file into a list of dictionaries with keys
     name, shares, and price.
     '''
     with open(filename) as lines:
-        portdicts = parse_csv(lines,
-                                select=['name', 'shares', 'price'],
-                                types=[str, int, float])
+        return Portfolio.from_csv(lines, **opts)
 
-        portfolio = [ stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts ]
-        return Portfolio(portfolio)
-
-def read_prices(filename:str):
+def read_prices(filename:str, **opts):
     '''
     Read a CSV file of price data into a dict mapping names to prices.
     '''
     with open(filename) as lines:
-        return dict(parse_csv(lines, types=[str, float], has_headers=False))
+        return dict(parse_csv(lines, types=[str, float], has_headers=False, **opts))
 
 def make_report(portfolio:list, prices:dict):
     '''
